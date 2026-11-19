@@ -221,13 +221,19 @@ created after open, commit pushed, duplicate snapshot) are Friday's job.
 4. Update README.md: add the three live make.fun badges (see RULES.txt
    Enter step 4 for exact URLs incl. the repo's rank.svg/reward.svg) + a
    link to a make.fun page; remove the "Draft" status paragraph.
-5. Create the public GitHub repo under basahhmemekk7-ai (after opening —
-   creating Friday satisfies this) via the custom.github connector
-   (bin/github.py; read its CONNECTOR.md; uploads via Contents API, one
-   commit per file). Suggested name: news-image-20261119. Set GitHub About:
-   website on make.fun + topic `makefun` (github.py has no set-about
-   command — use the GitHub API directly). Push all repo files (incl.
-   .makefun/owner.json, LICENSE, README with badges).
+5. The public GitHub repo ALREADY EXISTS (created Thu 19 Nov ~11:00 WIB
+   by the safety-submit agent): https://github.com/basahhmemekk7-ai/news-image-20261119
+   (public, main, head 68cd5765 after the 11-file upload; About set:
+   homepage on make.fun + topic `makefun`). Friday pushes updates to the
+   SAME repo (upload changed files via bin/github.py; do NOT create a new
+   repo). NOTE: the safety submit was REFUSED (HTTP 422, 0 entries used)
+   because README.md lacked the three live make.fun badges — the site's
+   repo_readme check requires them, so step 4 (badges) is REQUIRED before
+   any submit, not optional. See
+   ~/workspace/makefun/news-image-20261119-dev/submit-1.md for the full
+   record, and Basahh's rule (19 Nov 10:58 WIB): submit Friday's improved
+   version ONLY if the draft has been pushed out of the top 50; if the
+   draft is already in the paid ranks, STOP.
 6. Re-pull Muse usage rows (see above) into the dev dir. Rebuild the FINAL
    bundle from a CLEAN tree at the final commit (same flags as the draft
    bundle; new --notes; new --out transcripts.tar.gz). Re-run kit check —
@@ -244,3 +250,42 @@ created after open, commit pushed, duplicate snapshot) are Friday's job.
 ## Boundaries (standing)
 Free entry only; no bets; no spending; never print keypair/API key/PAT/
 signature; never sign a merge; keep secrets out of code and transcripts.
+
+## Finalization — DONE (Fri 20 Nov, moved up from the 19:30 cron)
+Basahh moved the finalization up at 01:17 WIB ("Perbarui semua, revisi dan
+evaluasi dari top rank rewards dan resubmit"). Session 814fa8be.
+
+- Live rank re-check 01:19 WIB: draft 96.35%, rank 7156 of 11,548 — outside
+  the top 50 (cutoff 98.65%), so the improved version proceeds per Basahh's
+  rule. Quota: day cap 3, taken 1, left 2, can_submit true.
+- Top-entry evaluation (live leaderboard, 01:20–01:24 WIB): top 8 images
+  viewed. Leaders (hazel-harbor-63 992352, izayoi-20 992290, quick-finch-51
+  992113, lomfi 991343, lively-condor-51 991162, aw-rama 991123) run 19–40
+  stories with outcomes on heroes, 10–13 illustrated cards, timeline strips,
+  stat strips and maps. Ranks 3 and 5 still carry the date errors phase 1
+  found — the judge does not penalize them, so format + outcomes + breadth
+  must match too, not just accuracy.
+- Story list refreshed to 34 verified 19 Nov stories (3 heroes + 12 leads +
+  19 briefs, 6 continents — Colombia adds South America). Heroes carry
+  outcomes: Shenzhen 90-min trilateral + four-point "Declaration toward
+  Peace" (no Ukraine mention); ICJ 9–6 genocide verdict, first against a
+  state; Anthropic opened $111.50 (+34% on $83 IPO, briefly ~$2tn).
+  New leads: Kerch rail bridge (3rd strike in 4 days), Denmark Arctic pact
+  109–0, Indonesia asset-seizure law (18-year wait). New briefs: Korea Han
+  retrial, Somalia expels UAE ambassador, Houthi missiles over Riyadh,
+  Colombia national strike, Australia jobless 4.9%, Suneung 551,864,
+  Jepchirchir 3-year EPO ban, Florida school closures (2nd day).
+  Candidates: McDonald's DROPPED (ruling date not pinned to 19 Nov);
+  Indonesia rain + California storm VERIFIED and reworded; Brand reworded
+  (MoJ asked for the video, not the channel; Google refused).
+  Traps added (22 total): Thune decision (18 Nov), Hemedti sentence
+  (18 Nov), Banxico cut (5 Nov), McDonald's ruling, Hegseth Bogotá
+  (18 Nov), SF rain record (18 Nov), Somalia/UAE accusation (17 Nov),
+  Anthropic pricing (18 Nov).
+- Layout reworked for 34 stories: heroes 164px (art 72px), 4-row lead grid
+  (12 cards), 2-column briefs, 3-column date check, map enlarged (245px).
+  All text verified unclipped by measurement; entry.png viewed for
+  legibility. entry.png 1024×1024, 341,082 bytes; two main.ts runs
+  byte-identical (sha256 01a3940e…).
+- Fresh kit-2 (~/workspace/makefun/news-image-20261119-kit-2/) used for
+  checks/submit; its bundle_sha256 is identical to the phase-1 kit.
