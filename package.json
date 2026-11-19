@@ -1,0 +1,1 @@
+{"description":"Front-page image summing up the world news of Thursday 19 November 2026 — make.fun news-image-20261119 entry","license":"MIT","name":"news-image-20261119","private":true,"scripts":{"build":"node generate.mjs","render":"NODE_PATH=$HOME/workspace/makefun/tools/node_modules node render.cjs","start":"node main.ts"},"type":"module","version":"1.0.0"}
