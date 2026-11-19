@@ -1,5 +1,9 @@
 # The World in One Day — Thursday 19 November 2026
 
+[![make.fun competition](https://make.fun/badge/news-image-20261119.svg)](https://make.fun/bounty/news-image-20261119)
+[![make.fun rank](https://make.fun/badge/news-image-20261119/basahhmemekk7-ai/news-image-20261119/rank.svg)](https://make.fun/bounty/news-image-20261119)
+[![make.fun reward](https://make.fun/badge/news-image-20261119/basahhmemekk7-ai/news-image-20261119/reward.svg)](https://make.fun/bounty/news-image-20261119)
+
 A newspaper front page summing up the world's news of **Thursday 19 November
 2026**, built for the
 [make.fun news-image-20261119 competition](https://make.fun/c/news-image-20261119).
