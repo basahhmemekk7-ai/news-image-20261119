@@ -44,7 +44,7 @@ for (const row of MAP_ROWS) {
   if (row.length !== 60) throw new Error(`map row wrong length: ${row.length}`);
 }
 const MAP_W = 460;
-const MAP_H = 170;
+const MAP_H = 245;
 function project(lat, lon) {
   return [(lon + 180) / 360 * MAP_W, (75 - lat) / 130 * MAP_H];
 }
@@ -96,18 +96,18 @@ function artShenzhen() {
     <g transform="translate(252,17)"><circle r="13" fill="#fff" stroke="#f8f4ec" stroke-width="1.5"/><clipPath id="us"><circle r="12"/></clipPath><g clip-path="url(#us)"><rect x="-12" y="-12" width="24" height="24" fill="#fff"/><rect x="-12" y="-12" width="24" height="3.4" fill="#b22234"/><rect x="-12" y="-5.2" width="24" height="3.4" fill="#b22234"/><rect x="-12" y="1.6" width="24" height="3.4" fill="#b22234"/><rect x="-12" y="8.4" width="24" height="3.4" fill="#b22234"/><rect x="-12" y="-12" width="10" height="12" fill="#3c3b6e"/><circle cx="-8" cy="-8" r="0.9" fill="#fff"/><circle cx="-4" cy="-8" r="0.9" fill="#fff"/><circle cx="-8" cy="-4" r="0.9" fill="#fff"/><circle cx="-4" cy="-4" r="0.9" fill="#fff"/></g></g>
     <g transform="translate(280,17)"><circle r="13" fill="#de2910" stroke="#f8f4ec" stroke-width="1.5"/><g fill="#ffde00"><path d="M-3,-6 L-1.5,-2.4 L2,-2.2 L-0.8,0 L0.2,3.8 L-3,1.6 L-6,3.8 L-5,0 L-7.8,-2.2 L-4.4,-2.4 Z" transform="translate(1,1) scale(1.4)"/><circle cx="4.5" cy="-4" r="1" /><circle cx="6.5" cy="-0.5" r="1" /><circle cx="5" cy="3" r="1" /><circle cx="1.5" cy="5.5" r="1" /></g></g>
     <g transform="translate(306,17)"><circle r="13" fill="#fff" stroke="#f8f4ec" stroke-width="1.5"/><clipPath id="ru"><circle r="12"/></clipPath><g clip-path="url(#ru)"><rect x="-12" y="-12" width="24" height="8" fill="#fff"/><rect x="-12" y="-4" width="24" height="8" fill="#0039a6"/><rect x="-12" y="4" width="24" height="8" fill="#d52b1e"/></g></g>`;
-  return `<svg width="100%" height="84" viewBox="0 0 318 88" preserveAspectRatio="xMidYMid slice">${sky}<rect width="318" height="88" fill="url(#sz)"/>${buildings}${windows}${flags}<rect y="86" width="318" height="2" fill="#ffd76a"/></svg>`;
+  return `<svg width="100%" height="72" viewBox="0 0 318 88" preserveAspectRatio="xMidYMid slice">${sky}<rect width="318" height="88" fill="url(#sz)"/>${buildings}${windows}${flags}<rect y="86" width="318" height="2" fill="#ffd76a"/></svg>`;
 }
 
 function artGta6() {
   const sky = `<defs><linearGradient id="gt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9a56"/><stop offset="0.55" stop-color="#e84393"/><stop offset="1" stop-color="#6c5ce7"/></linearGradient></defs>`;
   const palm = (tx, s) => `<g transform="translate(${tx},86) scale(${s})" stroke="#14101f" stroke-width="3" fill="none" stroke-linecap="round"><path d="M0,0 Q2,-16 7,-30"/><path d="M7,-30 Q-12,-40 -26,-32"/><path d="M7,-30 Q-6,-46 -18,-50"/><path d="M7,-30 Q8,-48 4,-54"/><path d="M7,-30 Q24,-44 34,-36"/><path d="M7,-30 Q26,-28 36,-18"/></g>`;
-  return `<svg width="100%" height="84" viewBox="0 0 318 88" preserveAspectRatio="xMidYMid slice">${sky}<rect width="318" height="88" fill="url(#gt)"/><circle cx="159" cy="52" r="22" fill="#ffd32a"/><circle cx="159" cy="52" r="27" fill="none" stroke="#ffd32a" stroke-width="1.5" opacity="0.6"/>${palm(28, 1)}${palm(286, 0.85)}<rect y="78" width="318" height="10" fill="#14101f"/><g fill="#14101f"><path d="M108,66 L116,56 L134,52 L176,52 L192,56 L202,66 L202,72 L108,72 Z"/><circle cx="130" cy="72" r="6"/><circle cx="182" cy="72" r="6"/></g><circle cx="130" cy="72" r="2.4" fill="#f8f4ec"/><circle cx="182" cy="72" r="2.4" fill="#f8f4ec"/><text x="159" y="34" text-anchor="middle" font-family="Noto Serif, Georgia, serif" font-size="30" font-weight="bold" fill="#fff" stroke="#14101f" stroke-width="0.8">VI</text></svg>`;
+  return `<svg width="100%" height="72" viewBox="0 0 318 88" preserveAspectRatio="xMidYMid slice">${sky}<rect width="318" height="88" fill="url(#gt)"/><circle cx="159" cy="52" r="22" fill="#ffd32a"/><circle cx="159" cy="52" r="27" fill="none" stroke="#ffd32a" stroke-width="1.5" opacity="0.6"/>${palm(28, 1)}${palm(286, 0.85)}<rect y="78" width="318" height="10" fill="#14101f"/><g fill="#14101f"><path d="M108,66 L116,56 L134,52 L176,52 L192,56 L202,66 L202,72 L108,72 Z"/><circle cx="130" cy="72" r="6"/><circle cx="182" cy="72" r="6"/></g><circle cx="130" cy="72" r="2.4" fill="#f8f4ec"/><circle cx="182" cy="72" r="2.4" fill="#f8f4ec"/><text x="159" y="34" text-anchor="middle" font-family="Noto Serif, Georgia, serif" font-size="30" font-weight="bold" fill="#fff" stroke="#14101f" stroke-width="0.8">VI</text></svg>`;
 }
 
 function artIcj() {
   const cols = [28, 58, 88, 118].map((x) => `<rect x="${x}" y="38" width="10" height="32" fill="#16324f"/>`).join("");
-  return `<svg width="100%" height="84" viewBox="0 0 318 88" preserveAspectRatio="xMidYMid slice"><rect width="318" height="88" fill="#eef2f5"/><polygon points="18,34 164,34 91,10" fill="#16324f"/><rect x="18" y="34" width="146" height="4" fill="#16324f"/>${cols}<rect x="14" y="70" width="154" height="5" fill="#16324f"/><rect x="9" y="75" width="164" height="5" fill="#16324f"/><rect x="9" y="80" width="174" height="4" fill="#b3261e"/><g stroke="#16324f" stroke-width="2.4" fill="none" stroke-linecap="round"><line x1="250" y1="16" x2="250" y2="72"/><line x1="224" y1="22" x2="276" y2="22"/><line x1="230" y1="22" x2="224" y2="40"/><line x1="230" y1="22" x2="236" y2="40"/><line x1="270" y1="22" x2="264" y2="40"/><line x1="270" y1="22" x2="276" y2="40"/></g><path d="M220,40 a10,7 0 0 0 20,0 Z" fill="#b3261e"/><path d="M260,40 a10,7 0 0 0 20,0 Z" fill="#b3261e"/><circle cx="250" cy="16" r="3.5" fill="#16324f"/><rect x="236" y="72" width="28" height="4" fill="#16324f"/><text x="250" y="86" text-anchor="middle" font-family="Noto Sans, Arial, sans-serif" font-size="8" font-weight="bold" fill="#16324f" letter-spacing="1">10:00 · THE HAGUE</text></svg>`;
+  return `<svg width="100%" height="72" viewBox="0 0 318 88" preserveAspectRatio="xMidYMid slice"><rect width="318" height="88" fill="#eef2f5"/><polygon points="18,34 164,34 91,10" fill="#16324f"/><rect x="18" y="34" width="146" height="4" fill="#16324f"/>${cols}<rect x="14" y="70" width="154" height="5" fill="#16324f"/><rect x="9" y="75" width="164" height="5" fill="#16324f"/><rect x="9" y="80" width="174" height="4" fill="#b3261e"/><g stroke="#16324f" stroke-width="2.4" fill="none" stroke-linecap="round"><line x1="250" y1="16" x2="250" y2="72"/><line x1="224" y1="22" x2="276" y2="22"/><line x1="230" y1="22" x2="224" y2="40"/><line x1="230" y1="22" x2="236" y2="40"/><line x1="270" y1="22" x2="264" y2="40"/><line x1="270" y1="22" x2="276" y2="40"/></g><path d="M220,40 a10,7 0 0 0 20,0 Z" fill="#b3261e"/><path d="M260,40 a10,7 0 0 0 20,0 Z" fill="#b3261e"/><circle cx="250" cy="16" r="3.5" fill="#16324f"/><rect x="236" y="72" width="28" height="4" fill="#16324f"/><text x="250" y="86" text-anchor="middle" font-family="Noto Sans, Arial, sans-serif" font-size="8" font-weight="bold" fill="#16324f" letter-spacing="1">10:00 · THE HAGUE</text></svg>`;
 }
 
 const ART = { shenzhen: artShenzhen, gta6: artGta6, icj: artIcj };
@@ -123,6 +123,9 @@ const ICONS = {
   columns: `<svg width="26" height="26" viewBox="0 0 24 24" fill="#16324f"><polygon points="12,3 22,8 2,8"/><rect x="4" y="10" width="2.6" height="8"/><rect x="10.7" y="10" width="2.6" height="8"/><rect x="17.4" y="10" width="2.6" height="8"/><rect x="2" y="19.5" width="20" height="2"/></svg>`,
   passport: `<svg width="26" height="26" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5" fill="#16324f"/><circle cx="12" cy="10.5" r="4.5" fill="none" stroke="#ffd76a" stroke-width="1.4" stroke-dasharray="1.6 1.4"/><line x1="8" y1="18" x2="16" y2="18" stroke="#fff" stroke-width="1.4"/></svg>`,
   house: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="1.9" stroke-linejoin="round"><path d="M3 11 L12 4 L21 11"/><path d="M5.5 9.5 V20 H18.5 V9.5"/><rect x="10" y="14" width="4" height="6" fill="#b3261e" stroke="none"/></svg>`,
+  bridge: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="1.8" stroke-linecap="round"><path d="M2 16 Q12 4 22 16"/><line x1="2" y1="16" x2="22" y2="16"/><line x1="5" y1="16" x2="5" y2="20"/><line x1="12" y1="10.5" x2="12" y2="20"/><line x1="19" y1="16" x2="19" y2="20"/><line x1="2" y1="20" x2="22" y2="20"/></svg>`,
+  shield: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3 L19 6 V11 C19 16 16.2 19.4 12 21 C7.8 19.4 5 16 5 11 V6 Z"/><path d="M8.5 11.5 L11 14 L15.5 9" stroke="#b3261e" stroke-width="2" stroke-linecap="round"/></svg>`,
+  gavel: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3.5" width="12" height="4.5" rx="1" transform="rotate(-28 9 5.7)" fill="#16324f" stroke="none"/><line x1="11.5" y1="9" x2="18" y2="17.5"/><line x1="4" y1="20.5" x2="16" y2="20.5" stroke-width="2.2"/></svg>`,
 };
 
 // -------------------------------------------------------------------- page
@@ -161,50 +164,50 @@ const html = `<!DOCTYPE html>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 1024px; height: 1024px; background: #f8f4ec; }
   body { font-family: "Noto Sans", Arial, sans-serif; color: #1a1a1a; }
-  .page { width: 1024px; height: 1024px; padding: 11px 16px 9px; display: flex; flex-direction: column; gap: 6px; }
+  .page { width: 1024px; height: 1024px; padding: 11px 16px 9px; display: flex; flex-direction: column; gap: 5px; }
   /* masthead */
   .masthead { text-align: center; border-bottom: 3px double #1a1a1a; padding-bottom: 5px; flex: 0 0 auto; }
   .name { font-size: 13px; font-weight: bold; letter-spacing: 6px; color: #b3261e; }
-  h1 { font-family: "Noto Serif", Georgia, serif; font-size: 39px; line-height: 1.08; font-weight: bold; }
-  .tagline { font-size: 11px; font-style: italic; color: #444; margin-top: 2px; }
+  h1 { font-family: "Noto Serif", Georgia, serif; font-size: 37px; line-height: 1.08; font-weight: bold; }
+  .tagline { font-size: 11px; font-style: italic; color: #444; margin-top: 1px; }
   /* stat strip */
-  .stats { display: flex; justify-content: space-between; border-bottom: 1px solid #1a1a1a; padding: 3px 2px 5px; font-size: 11px; font-weight: bold; letter-spacing: 0.5px; flex: 0 0 auto; }
+  .stats { display: flex; justify-content: space-between; border-bottom: 1px solid #1a1a1a; padding: 2px 2px 4px; font-size: 11px; font-weight: bold; letter-spacing: 0.5px; flex: 0 0 auto; }
   .stats span b { color: #b3261e; }
   /* heroes */
-  .heroes { display: flex; gap: 9px; flex: 0 0 196px; }
+  .heroes { display: flex; gap: 9px; flex: 0 0 164px; }
   .hero { flex: 1; border: 1px solid #c9c2b4; background: #fffdf8; display: flex; flex-direction: column; overflow: hidden; }
-  .art { flex: 0 0 84px; }
+  .art { flex: 0 0 72px; }
   .art svg { display: block; }
-  .hero-body { padding: 6px 9px 7px; }
-  .kicker { font-size: 9.5px; font-weight: bold; letter-spacing: 1px; color: #16324f; margin-bottom: 3px; }
+  .hero-body { padding: 5px 9px 5px; }
+  .kicker { font-size: 9px; font-weight: bold; letter-spacing: 1px; color: #16324f; margin-bottom: 2px; }
   .num { display: inline-block; background: #b3261e; color: #fff; font-size: 8.5px; width: 13px; height: 13px; line-height: 13px; text-align: center; border-radius: 50%; margin-right: 3px; }
   .hero h2 { font-family: "Noto Serif", Georgia, serif; font-size: 16.5px; line-height: 1.15; margin-bottom: 3px; }
   .hero p { font-size: 11px; line-height: 1.35; color: #333; }
   /* medium grid */
-  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 7px; flex: 1 1 auto; min-height: 0; }
-  .card { border: 1px solid #c9c2b4; background: #fffdf8; padding: 6px 8px; display: flex; gap: 8px; overflow: hidden; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr 1fr; gap: 7px; flex: 1 1 auto; min-height: 0; }
+  .card { border: 1px solid #c9c2b4; background: #fffdf8; padding: 4px 8px; display: flex; gap: 8px; overflow: hidden; }
   .icon { flex: 0 0 26px; padding-top: 1px; }
-  .card h3 { font-family: "Noto Serif", Georgia, serif; font-size: 12.5px; line-height: 1.18; margin-bottom: 2px; }
-  .card p { font-size: 10px; line-height: 1.32; color: #333; }
+  .card h3 { font-family: "Noto Serif", Georgia, serif; font-size: 12px; line-height: 1.18; margin-bottom: 1px; }
+  .card p { font-size: 9.5px; line-height: 1.28; color: #333; }
   /* middle row: map + briefs */
-  .middle { display: flex; gap: 9px; flex: 0 0 202px; }
+  .middle { display: flex; gap: 9px; flex: 0 0 272px; }
   .mapbox { flex: 0 0 478px; border: 1px solid #c9c2b4; background: #f2f6f8; padding: 3px 8px 2px; }
   .mapbox h4, .briefs h4 { font-size: 10px; letter-spacing: 1.2px; color: #16324f; margin-bottom: 1px; }
   .mapbox .cap { font-size: 8.5px; color: #666; }
   .briefs { flex: 1; border: 1px solid #c9c2b4; background: #fffdf8; padding: 4px 10px 5px; }
-  .briefs ul { list-style: none; }
-  .briefs li { font-size: 10px; line-height: 1.3; padding: 0.7px 0; border-bottom: 1px dotted #ddd5c4; }
+  .briefs ul { list-style: none; columns: 2; column-gap: 14px; }
+  .briefs li { font-size: 9px; line-height: 1.25; padding: 0.2px 0; border-bottom: 1px dotted #ddd5c4; }
   .briefs li:last-child { border-bottom: none; }
   .briefs li b { color: #16324f; }
   /* date check */
   .datecheck { border: 2px solid #b3261e; background: #fdf0ee; padding: 4px 10px 5px; flex: 0 0 auto; }
   .datecheck h4 { font-size: 10px; letter-spacing: 0.8px; color: #b3261e; margin-bottom: 2px; }
-  .datecheck ul { list-style: none; columns: 2; column-gap: 24px; }
-  .datecheck li { font-size: 9.5px; line-height: 1.25; padding: 0.5px 0; }
+  .datecheck ul { list-style: none; columns: 3; column-gap: 18px; }
+  .datecheck li { font-size: 9px; line-height: 1.25; padding: 0.5px 0; }
   .datecheck li b { color: #b3261e; }
   .datecheck .x { color: #b3261e; font-weight: bold; }
   /* footer */
-  .footer { text-align: center; font-size: 8.5px; color: #555; line-height: 1.35; flex: 0 0 auto; border-top: 1px solid #c9c2b4; padding-top: 4px; }
+  .footer { text-align: center; font-size: 8.5px; color: #555; line-height: 1.35; flex: 0 0 auto; border-top: 1px solid #c9c2b4; padding-top: 3px; }
   .footer b { color: #1a1a1a; }
 </style></head>
 <body><div class="page">
@@ -215,8 +218,8 @@ const html = `<!DOCTYPE html>
   </header>
   <div class="stats">
     <span><b>${storyCount}</b> STORIES</span>
-    <span><b>5</b> CONTINENTS</span>
-    <span><b>3</b> HEROES · <b>9</b> LEADS · <b>12</b> BRIEFS</span>
+    <span><b>6</b> CONTINENTS</span>
+    <span><b>3</b> HEROES · <b>12</b> LEADS · <b>19</b> BRIEFS</span>
     <span><b>${data.excluded.length}</b> TRAPS CHECKED &amp; EXCLUDED</span>
   </div>
   <section class="heroes">${heroHtml}
@@ -225,12 +228,12 @@ const html = `<!DOCTYPE html>
   </section>
   <section class="middle">
     <div class="mapbox">
-      <h4>WHERE IT HAPPENED — THE 12 LEAD STORIES</h4>
+      <h4>WHERE IT HAPPENED — THE 15 PINNED STORIES</h4>
       ${buildMapSvg()}
       <div class="cap">Numbers match the red badges on the stories above. Crowded pins use leader lines.</div>
     </div>
     <div class="briefs">
-      <h4>IN BRIEF — 12 MORE STORIES FROM THE DAY</h4>
+      <h4>IN BRIEF — 19 MORE STORIES FROM THE DAY</h4>
       <ul>${briefHtml}
       </ul>
     </div>
