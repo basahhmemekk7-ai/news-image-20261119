@@ -1,4 +1,5 @@
 // generate.mjs — builds index.html (the front page) from stories.json.
+// Entry 3: "THE DAY IN HOURS" — a chronological timeline layout.
 // Deterministic: no randomness, no timestamps, no network.
 // Run: node generate.mjs   → writes index.html in this directory.
 // Then: NODE_PATH=<playwright dir> node render.cjs   → entry.png
@@ -43,8 +44,8 @@ const MAP_ROWS = [
 for (const row of MAP_ROWS) {
   if (row.length !== 60) throw new Error(`map row wrong length: ${row.length}`);
 }
-const MAP_W = 460;
-const MAP_H = 245;
+const MAP_W = 330;
+const MAP_H = 160;
 function project(lat, lon) {
   return [(lon + 180) / 360 * MAP_W, (75 - lat) / 130 * MAP_H];
 }
@@ -56,13 +57,12 @@ function buildMapSvg() {
   for (let r = 0; r < MAP_ROWS.length; r++) {
     for (let c = 0; c < 60; c++) {
       if (MAP_ROWS[r][c] === "#") {
-        dots += `<circle cx="${((c + 0.5) * cw).toFixed(1)}" cy="${((r + 0.5) * ch).toFixed(1)}" r="2.3" fill="#aebfca"/>`;
+        dots += `<circle cx="${((c + 0.5) * cw).toFixed(1)}" cy="${((r + 0.5) * ch).toFixed(1)}" r="1.9" fill="#aebfca"/>`;
       }
     }
   }
   let pins = "";
-  const pinned = [...data.heroes, ...data.cards];
-  for (const s of pinned) {
+  for (const s of data.spine) {
     const [x, y] = project(s.pin.lat, s.pin.lon);
     const dx = s.pin.dx || 0;
     const dy = s.pin.dy || 0;
@@ -80,7 +80,6 @@ function buildMapSvg() {
 function esc(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
-const STAR = "M0,-5 L1.5,-1.8 L5,-1.5 L2.3,0.8 L3.2,4.2 L0,2.2 L-3.2,4.2 L-2.3,0.8 L-5,-1.5 L-1.5,-1.8 Z";
 
 // ------------------------------------------------------------ hero artwork
 function artShenzhen() {
@@ -96,66 +95,120 @@ function artShenzhen() {
     <g transform="translate(252,17)"><circle r="13" fill="#fff" stroke="#f8f4ec" stroke-width="1.5"/><clipPath id="us"><circle r="12"/></clipPath><g clip-path="url(#us)"><rect x="-12" y="-12" width="24" height="24" fill="#fff"/><rect x="-12" y="-12" width="24" height="3.4" fill="#b22234"/><rect x="-12" y="-5.2" width="24" height="3.4" fill="#b22234"/><rect x="-12" y="1.6" width="24" height="3.4" fill="#b22234"/><rect x="-12" y="8.4" width="24" height="3.4" fill="#b22234"/><rect x="-12" y="-12" width="10" height="12" fill="#3c3b6e"/><circle cx="-8" cy="-8" r="0.9" fill="#fff"/><circle cx="-4" cy="-8" r="0.9" fill="#fff"/><circle cx="-8" cy="-4" r="0.9" fill="#fff"/><circle cx="-4" cy="-4" r="0.9" fill="#fff"/></g></g>
     <g transform="translate(280,17)"><circle r="13" fill="#de2910" stroke="#f8f4ec" stroke-width="1.5"/><g fill="#ffde00"><path d="M-3,-6 L-1.5,-2.4 L2,-2.2 L-0.8,0 L0.2,3.8 L-3,1.6 L-6,3.8 L-5,0 L-7.8,-2.2 L-4.4,-2.4 Z" transform="translate(1,1) scale(1.4)"/><circle cx="4.5" cy="-4" r="1" /><circle cx="6.5" cy="-0.5" r="1" /><circle cx="5" cy="3" r="1" /><circle cx="1.5" cy="5.5" r="1" /></g></g>
     <g transform="translate(306,17)"><circle r="13" fill="#fff" stroke="#f8f4ec" stroke-width="1.5"/><clipPath id="ru"><circle r="12"/></clipPath><g clip-path="url(#ru)"><rect x="-12" y="-12" width="24" height="8" fill="#fff"/><rect x="-12" y="-4" width="24" height="8" fill="#0039a6"/><rect x="-12" y="4" width="24" height="8" fill="#d52b1e"/></g></g>`;
-  return `<svg width="100%" height="72" viewBox="0 0 318 88" preserveAspectRatio="xMidYMid slice">${sky}<rect width="318" height="88" fill="url(#sz)"/>${buildings}${windows}${flags}<rect y="86" width="318" height="2" fill="#ffd76a"/></svg>`;
+  return `<svg width="100%" height="100%" viewBox="0 0 318 88" preserveAspectRatio="xMidYMid slice">${sky}<rect width="318" height="88" fill="url(#sz)"/>${buildings}${windows}${flags}<rect y="86" width="318" height="2" fill="#ffd76a"/></svg>`;
 }
 
 function artGta6() {
   const sky = `<defs><linearGradient id="gt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9a56"/><stop offset="0.55" stop-color="#e84393"/><stop offset="1" stop-color="#6c5ce7"/></linearGradient></defs>`;
   const palm = (tx, s) => `<g transform="translate(${tx},86) scale(${s})" stroke="#14101f" stroke-width="3" fill="none" stroke-linecap="round"><path d="M0,0 Q2,-16 7,-30"/><path d="M7,-30 Q-12,-40 -26,-32"/><path d="M7,-30 Q-6,-46 -18,-50"/><path d="M7,-30 Q8,-48 4,-54"/><path d="M7,-30 Q24,-44 34,-36"/><path d="M7,-30 Q26,-28 36,-18"/></g>`;
-  return `<svg width="100%" height="72" viewBox="0 0 318 88" preserveAspectRatio="xMidYMid slice">${sky}<rect width="318" height="88" fill="url(#gt)"/><circle cx="159" cy="52" r="22" fill="#ffd32a"/><circle cx="159" cy="52" r="27" fill="none" stroke="#ffd32a" stroke-width="1.5" opacity="0.6"/>${palm(28, 1)}${palm(286, 0.85)}<rect y="78" width="318" height="10" fill="#14101f"/><g fill="#14101f"><path d="M108,66 L116,56 L134,52 L176,52 L192,56 L202,66 L202,72 L108,72 Z"/><circle cx="130" cy="72" r="6"/><circle cx="182" cy="72" r="6"/></g><circle cx="130" cy="72" r="2.4" fill="#f8f4ec"/><circle cx="182" cy="72" r="2.4" fill="#f8f4ec"/><text x="159" y="34" text-anchor="middle" font-family="Noto Serif, Georgia, serif" font-size="30" font-weight="bold" fill="#fff" stroke="#14101f" stroke-width="0.8">VI</text></svg>`;
+  return `<svg width="100%" height="100%" viewBox="0 0 318 88" preserveAspectRatio="xMidYMid slice">${sky}<rect width="318" height="88" fill="url(#gt)"/><circle cx="159" cy="52" r="22" fill="#ffd32a"/><circle cx="159" cy="52" r="27" fill="none" stroke="#ffd32a" stroke-width="1.5" opacity="0.6"/>${palm(28, 1)}${palm(286, 0.85)}<rect y="78" width="318" height="10" fill="#14101f"/><g fill="#14101f"><path d="M108,66 L116,56 L134,52 L176,52 L192,56 L202,66 L202,72 L108,72 Z"/><circle cx="130" cy="72" r="6"/><circle cx="182" cy="72" r="6"/></g><circle cx="130" cy="72" r="2.4" fill="#f8f4ec"/><circle cx="182" cy="72" r="2.4" fill="#f8f4ec"/><text x="159" y="34" text-anchor="middle" font-family="Noto Serif, Georgia, serif" font-size="30" font-weight="bold" fill="#fff" stroke="#14101f" stroke-width="0.8">VI</text></svg>`;
 }
 
 function artIcj() {
   const cols = [28, 58, 88, 118].map((x) => `<rect x="${x}" y="38" width="10" height="32" fill="#16324f"/>`).join("");
-  return `<svg width="100%" height="72" viewBox="0 0 318 88" preserveAspectRatio="xMidYMid slice"><rect width="318" height="88" fill="#eef2f5"/><polygon points="18,34 164,34 91,10" fill="#16324f"/><rect x="18" y="34" width="146" height="4" fill="#16324f"/>${cols}<rect x="14" y="70" width="154" height="5" fill="#16324f"/><rect x="9" y="75" width="164" height="5" fill="#16324f"/><rect x="9" y="80" width="174" height="4" fill="#b3261e"/><g stroke="#16324f" stroke-width="2.4" fill="none" stroke-linecap="round"><line x1="250" y1="16" x2="250" y2="72"/><line x1="224" y1="22" x2="276" y2="22"/><line x1="230" y1="22" x2="224" y2="40"/><line x1="230" y1="22" x2="236" y2="40"/><line x1="270" y1="22" x2="264" y2="40"/><line x1="270" y1="22" x2="276" y2="40"/></g><path d="M220,40 a10,7 0 0 0 20,0 Z" fill="#b3261e"/><path d="M260,40 a10,7 0 0 0 20,0 Z" fill="#b3261e"/><circle cx="250" cy="16" r="3.5" fill="#16324f"/><rect x="236" y="72" width="28" height="4" fill="#16324f"/><text x="250" y="86" text-anchor="middle" font-family="Noto Sans, Arial, sans-serif" font-size="8" font-weight="bold" fill="#16324f" letter-spacing="1">10:00 · THE HAGUE</text></svg>`;
+  return `<svg width="100%" height="100%" viewBox="0 0 318 88" preserveAspectRatio="xMidYMid slice"><rect width="318" height="88" fill="#eef2f5"/><polygon points="18,34 164,34 91,10" fill="#16324f"/><rect x="18" y="34" width="146" height="4" fill="#16324f"/>${cols}<rect x="14" y="70" width="154" height="5" fill="#16324f"/><rect x="9" y="75" width="164" height="5" fill="#16324f"/><rect x="9" y="80" width="174" height="4" fill="#b3261e"/><g stroke="#16324f" stroke-width="2.4" fill="none" stroke-linecap="round"><line x1="250" y1="16" x2="250" y2="72"/><line x1="224" y1="22" x2="276" y2="22"/><line x1="230" y1="22" x2="224" y2="40"/><line x1="230" y1="22" x2="236" y2="40"/><line x1="270" y1="22" x2="264" y2="40"/><line x1="270" y1="22" x2="276" y2="40"/></g><path d="M220,40 a10,7 0 0 0 20,0 Z" fill="#b3261e"/><path d="M260,40 a10,7 0 0 0 20,0 Z" fill="#b3261e"/><circle cx="250" cy="16" r="3.5" fill="#16324f"/><rect x="236" y="72" width="28" height="4" fill="#16324f"/><text x="250" y="86" text-anchor="middle" font-family="Noto Sans, Arial, sans-serif" font-size="8" font-weight="bold" fill="#16324f" letter-spacing="1">10:00 · THE HAGUE</text></svg>`;
 }
 
-const ART = { shenzhen: artShenzhen, gta6: artGta6, icj: artIcj };
+// ------------------------------------------------------------ lead artwork
+// Mini flat-vector scenes, viewBox 108x62, for the lead cards.
+function artDrone() {
+  return `<svg width="100%" height="100%" viewBox="0 0 108 62" preserveAspectRatio="xMidYMid slice"><rect width="108" height="62" fill="#16283d"/><polygon points="0,62 0,44 14,44 14,36 26,36 26,48 40,48 40,40 54,40 54,50 70,50 70,42 84,42 84,52 108,52 108,62" fill="#0b1826"/><circle cx="20" cy="12" r="6" fill="#e8e4d8"/><g stroke="#f8f4ec" stroke-width="1.6"><line x1="62" y1="14" x2="76" y2="28"/><line x1="76" y1="14" x2="62" y2="28"/></g><circle cx="62" cy="14" r="2.4" fill="#f8f4ec"/><circle cx="76" cy="14" r="2.4" fill="#f8f4ec"/><circle cx="62" cy="28" r="2.4" fill="#f8f4ec"/><circle cx="76" cy="28" r="2.4" fill="#f8f4ec"/><rect x="66" y="18" width="6" height="6" fill="#b3261e"/><path d="M92,8 L94,14 L100,14 L95,18 L97,24 L92,20 L87,24 L89,18 L84,14 L90,14 Z" fill="#ff9f1c"/></svg>`;
+}
 
-// ------------------------------------------------------------------- icons
-const ICONS = {
-  chart: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="2" stroke-linecap="round"><line x1="3" y1="21" x2="21" y2="21"/><rect x="5" y="13" width="3.4" height="6" fill="#16324f" stroke="none"/><rect x="10.3" y="9" width="3.4" height="10" fill="#16324f" stroke="none"/><rect x="15.6" y="4" width="3.4" height="15" fill="#b3261e" stroke="none"/></svg>`,
-  cyclone: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="2" stroke-linecap="round"><path d="M12 12a2 2 0 1 0 2-2"/><path d="M12 12a5 5 0 1 1-4.3-7.4"/><path d="M12 12a8 8 0 1 1-6.9-11.9"/><path d="M12 12a10.5 10.5 0 1 1-9-15.6"/></svg>`,
-  globe: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><line x1="3" y1="12" x2="21" y2="12"/></svg>`,
-  drone: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/><circle cx="5" cy="5" r="2.2"/><circle cx="19" cy="5" r="2.2"/><circle cx="5" cy="19" r="2.2"/><circle cx="19" cy="19" r="2.2"/><rect x="9.5" y="9.5" width="5" height="5" fill="#b3261e" stroke="none"/></svg>`,
-  flags: `<svg width="26" height="26" viewBox="0 0 24 24"><rect x="2" y="5" width="9" height="13" fill="#fff" stroke="#16324f" stroke-width="1.4"/><rect x="2" y="5" width="9" height="4.3" fill="#ff9933"/><rect x="2" y="13.7" width="9" height="4.3" fill="#138808"/><circle cx="6.5" cy="11.5" r="1.8" fill="none" stroke="#06038d" stroke-width="1"/><rect x="13" y="6" width="9" height="12" fill="#fff" stroke="#16324f" stroke-width="1.4"/><circle cx="17.5" cy="12" r="3.2" fill="#bc002d"/></svg>`,
-  ship: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15 L5 19 L19 19 L21 15 Z"/><line x1="12" y1="15" x2="12" y2="4"/><path d="M12 4 L18 10 L12 10 Z" fill="#b3261e" stroke="none"/><path d="M2 21.5 H22"/></svg>`,
-  columns: `<svg width="26" height="26" viewBox="0 0 24 24" fill="#16324f"><polygon points="12,3 22,8 2,8"/><rect x="4" y="10" width="2.6" height="8"/><rect x="10.7" y="10" width="2.6" height="8"/><rect x="17.4" y="10" width="2.6" height="8"/><rect x="2" y="19.5" width="20" height="2"/></svg>`,
-  passport: `<svg width="26" height="26" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5" fill="#16324f"/><circle cx="12" cy="10.5" r="4.5" fill="none" stroke="#ffd76a" stroke-width="1.4" stroke-dasharray="1.6 1.4"/><line x1="8" y1="18" x2="16" y2="18" stroke="#fff" stroke-width="1.4"/></svg>`,
-  house: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="1.9" stroke-linejoin="round"><path d="M3 11 L12 4 L21 11"/><path d="M5.5 9.5 V20 H18.5 V9.5"/><rect x="10" y="14" width="4" height="6" fill="#b3261e" stroke="none"/></svg>`,
-  bridge: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="1.8" stroke-linecap="round"><path d="M2 16 Q12 4 22 16"/><line x1="2" y1="16" x2="22" y2="16"/><line x1="5" y1="16" x2="5" y2="20"/><line x1="12" y1="10.5" x2="12" y2="20"/><line x1="19" y1="16" x2="19" y2="20"/><line x1="2" y1="20" x2="22" y2="20"/></svg>`,
-  shield: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3 L19 6 V11 C19 16 16.2 19.4 12 21 C7.8 19.4 5 16 5 11 V6 Z"/><path d="M8.5 11.5 L11 14 L15.5 9" stroke="#b3261e" stroke-width="2" stroke-linecap="round"/></svg>`,
-  gavel: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16324f" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3.5" width="12" height="4.5" rx="1" transform="rotate(-28 9 5.7)" fill="#16324f" stroke="none"/><line x1="11.5" y1="9" x2="18" y2="17.5"/><line x1="4" y1="20.5" x2="16" y2="20.5" stroke-width="2.2"/></svg>`,
+function artBridge() {
+  return `<svg width="100%" height="100%" viewBox="0 0 108 62" preserveAspectRatio="xMidYMid slice"><rect width="108" height="62" fill="#a8c8e0"/><rect y="42" width="108" height="20" fill="#2c5f8a"/><path d="M6,42 Q54,8 102,42" fill="none" stroke="#16324f" stroke-width="3"/><line x1="6" y1="42" x2="102" y2="42" stroke="#16324f" stroke-width="3"/><line x1="30" y1="30" x2="30" y2="42" stroke="#16324f" stroke-width="2"/><line x1="54" y1="24" x2="54" y2="42" stroke="#16324f" stroke-width="2"/><line x1="78" y1="30" x2="78" y2="42" stroke="#16324f" stroke-width="2"/><path d="M54,6 L56.5,13 L64,13 L58,17.5 L60,25 L54,20.5 L48,25 L50,17.5 L44,13 L51.5,13 Z" fill="#ff9f1c"/><circle cx="46" cy="10" r="3" fill="#888" opacity="0.7"/><circle cx="62" cy="8" r="2.4" fill="#888" opacity="0.7"/><path d="M10,50 q6,-2 12,0 M60,54 q6,-2 12,0" stroke="#fff" stroke-width="1.4" fill="none" opacity="0.7"/></svg>`;
+}
+
+function artExam() {
+  // Classroom: chalkboard, clock at 08:40, three candidates at desks.
+  return `<svg width="100%" height="100%" viewBox="0 0 108 62" preserveAspectRatio="xMidYMid slice"><rect width="108" height="62" fill="#f2e8d5"/><rect x="14" y="6" width="56" height="22" fill="#2e6b4f"/><text x="42" y="22" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#fff">EXAM</text><circle cx="90" cy="16" r="10" fill="#fff" stroke="#16324f" stroke-width="2"/><line x1="90" y1="16" x2="84" y2="13" stroke="#16324f" stroke-width="1.6"/><line x1="90" y1="16" x2="83" y2="19" stroke="#b3261e" stroke-width="1.6"/><g fill="#16324f"><rect x="16" y="40" width="20" height="4"/><rect x="44" y="40" width="20" height="4"/><rect x="72" y="40" width="20" height="4"/><circle cx="26" cy="33" r="5"/><circle cx="54" cy="33" r="5"/><circle cx="82" cy="33" r="5"/></g><rect x="10" y="48" width="88" height="3" fill="#b3261e"/></svg>`;
+}
+
+function artGavel() {
+  // Parliament hall (red/white) with a gavel.
+  return `<svg width="100%" height="100%" viewBox="0 0 108 62" preserveAspectRatio="xMidYMid slice"><rect width="108" height="62" fill="#fdf0ee"/><polygon points="54,6 96,14 12,14" fill="#b3261e"/><rect x="8" y="14" width="92" height="34" fill="#fff" stroke="#b3261e" stroke-width="1.5"/><rect x="20" y="20" width="6" height="22" fill="#b3261e"/><rect x="36" y="20" width="6" height="22" fill="#b3261e"/><rect x="66" y="20" width="6" height="22" fill="#b3261e"/><rect x="82" y="20" width="6" height="22" fill="#b3261e"/><rect x="48" y="20" width="12" height="22" fill="#16324f"/><rect x="8" y="48" width="92" height="4" fill="#16324f"/><g transform="rotate(-24 88 44)"><rect x="80" y="38" width="16" height="5" rx="1" fill="#16324f"/></g></svg>`;
+}
+
+function artGlobe() {
+  return `<svg width="100%" height="100%" viewBox="0 0 108 62" preserveAspectRatio="xMidYMid slice"><rect width="108" height="62" fill="#dff0e4"/><circle cx="42" cy="31" r="22" fill="#2e8b57"/><path d="M28,22 q10,-6 16,2 q8,2 4,10 q-6,8 -16,4 q-8,-6 -4,-16Z" fill="#7ec850"/><path d="M30,40 q8,6 18,2" fill="none" stroke="#7ec850" stroke-width="3"/><g transform="translate(78,10)"><rect x="-4" y="0" width="8" height="26" rx="4" fill="#fff" stroke="#b3261e" stroke-width="1.5"/><rect x="-2" y="12" width="4" height="14" fill="#b3261e"/><circle cx="0" cy="30" r="6" fill="#b3261e"/></g><text x="42" y="58" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="#16324f">FINAL 48 HOURS</text></svg>`;
+}
+
+function artChart() {
+  return `<svg width="100%" height="100%" viewBox="0 0 108 62" preserveAspectRatio="xMidYMid slice"><rect width="108" height="62" fill="#0d3b2e"/><text x="8" y="14" font-family="Arial" font-size="10" font-weight="bold" fill="#fff">ANT</text><g stroke="#2ecc71" stroke-width="2"><line x1="12" y1="44" x2="12" y2="30"/><line x1="28" y1="40" x2="28" y2="24"/><line x1="44" y1="36" x2="44" y2="18"/><line x1="60" y1="32" x2="60" y2="12"/><line x1="76" y1="28" x2="76" y2="8"/></g><g fill="#2ecc71"><rect x="8" y="34" width="8" height="10"/><rect x="24" y="28" width="8" height="12"/><rect x="40" y="22" width="8" height="14"/><rect x="56" y="16" width="8" height="16"/><rect x="72" y="10" width="8" height="18"/></g><rect x="74" y="42" width="26" height="14" fill="#ffd76a"/><text x="87" y="52" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="#16324f">$111</text></svg>`;
+}
+
+function artShield() {
+  // Danish flag + shield + 109-0.
+  return `<svg width="100%" height="100%" viewBox="0 0 108 62" preserveAspectRatio="xMidYMid slice"><rect width="108" height="62" fill="#c8102e"/><rect x="30" y="0" width="12" height="62" fill="#fff"/><rect x="0" y="25" width="108" height="12" fill="#fff"/><g transform="translate(78,31)"><path d="M0,-18 L14,-12 V2 C14,12 8,18 0,22 C-8,18 -14,12 -14,2 V-12 Z" fill="#fff" stroke="#16324f" stroke-width="2"/><path d="M-6,2 L-2,6 L7,-4" fill="none" stroke="#1a7a3a" stroke-width="2.5"/></g><text x="62" y="58" font-family="Arial" font-size="11" font-weight="bold" fill="#fff">109–0</text></svg>`;
+}
+
+function artCyclone() {
+  return `<svg width="100%" height="100%" viewBox="0 0 108 62" preserveAspectRatio="xMidYMid slice"><rect width="108" height="62" fill="#dfe9f2"/><g fill="none" stroke="#16324f" stroke-width="2.4" stroke-linecap="round"><path d="M40,31 a6,6 0 1 1 6,-6"/><path d="M40,31 a13,13 0 1 1 11,-13"/><path d="M40,31 a20,20 0 1 1 17,-20"/></g><circle cx="40" cy="31" r="3" fill="#b3261e"/><g stroke="#2c5f8a" stroke-width="2" stroke-linecap="round"><line x1="76" y1="8" x2="72" y2="18"/><line x1="88" y1="8" x2="84" y2="18"/><line x1="100" y1="8" x2="96" y2="18"/><line x1="76" y1="24" x2="72" y2="34"/><line x1="88" y1="24" x2="84" y2="34"/><line x1="100" y1="24" x2="96" y2="34"/></g><rect x="46" y="44" width="46" height="12" fill="#b3261e"/><text x="69" y="53" text-anchor="middle" font-family="Arial" font-size="7.5" font-weight="bold" fill="#fff">RED ALERT</text></svg>`;
+}
+
+const ART = {
+  shenzhen: artShenzhen, gta6: artGta6, icj: artIcj,
+  drone: artDrone, bridge: artBridge, exam: artExam, gavel: artGavel,
+  globe: artGlobe, chart: artChart, shield: artShield, cyclone: artCyclone,
 };
 
 // -------------------------------------------------------------------- page
-const heroHtml = data.heroes.map((h) => `
-  <article class="hero">
-    <div class="art">${ART[h.art]()}</div>
-    <div class="hero-body">
-      <div class="kicker"><span class="num">${h.num}</span> ${esc(h.kicker)}</div>
-      <h2>${esc(h.headline)}</h2>
-      <p>${esc(h.body)}</p>
-    </div>
-  </article>`).join("");
+const STATS = [
+  ["3", "LEADERS AT ONE TABLE"],
+  ["9–6", "ICJ GENOCIDE VOTE"],
+  ["$111.50", "ANTHROPIC'S FIRST TRADE"],
+  ["109–0", "DANISH VOTE, ARCTIC PACT"],
+  ["4.9%", "AUSTRALIA JOBLESS, 5-YR HIGH"],
+  ["551,864", "SIT KOREA'S SUNEUNG EXAM"],
+];
 
-const cardHtml = data.cards.map((c) => `
-  <article class="card">
-    <div class="icon">${ICONS[c.icon]}</div>
-    <div class="card-text">
-      <div class="kicker"><span class="num">${c.num}</span> ${esc(c.kicker)}</div>
-      <h3>${esc(c.headline)}</h3>
-      <p>${esc(c.body)}</p>
+const spine = data.spine;
+function timePill(s) {
+  return `<span class="time">${esc(s.time)} · ${esc(s.city)}</span>`;
+}
+function heroRow(s) {
+  return `<div class="trow herorow"><article class="hero">
+    <div class="art">${ART[s.art]()}</div>
+    <div class="htext">
+      <div class="kicker">${timePill(s)}<span class="num">${s.num}</span> ${esc(s.kicker)}</div>
+      <h2>${esc(s.headline)}</h2>
+      <p>${esc(s.body)}</p>
     </div>
-  </article>`).join("");
+  </article></div>`;
+}
+function leadCard(s) {
+  return `<article class="card">
+    <div class="art">${ART[s.art]()}</div>
+    <div class="ctext">
+      <div class="kicker">${timePill(s)}<span class="num">${s.num}</span> ${esc(s.kicker)}</div>
+      <h3>${esc(s.headline)}</h3>
+      <p>${esc(s.body)}</p>
+    </div>
+  </article>`;
+}
+function leadRow(a, b) {
+  return `<div class="trow leadrow">${leadCard(a)}${leadCard(b)}</div>`;
+}
+
+// Timeline order: hero, 2 leads, 2 leads, hero, 2 leads, hero, 2 leads.
+const timelineHtml =
+  heroRow(spine[0]) +
+  leadRow(spine[1], spine[2]) +
+  leadRow(spine[3], spine[4]) +
+  heroRow(spine[5]) +
+  leadRow(spine[6], spine[7]) +
+  heroRow(spine[8]) +
+  leadRow(spine[9], spine[10]);
+
+const statsHtml = STATS.map(([n, l]) => `
+    <div class="stat"><div class="statnum">${n}</div><div class="statlabel">${l}</div></div>`).join("");
 
 const briefHtml = data.briefs.map((b) => `
     <li><b>${esc(b.label)} —</b> ${esc(b.text)}</li>`).join("");
 
-const excludedHtml = data.excluded.map((e) => `
-      <li><span class="x">✕</span> ${esc(e.text)} <b>· ${esc(e.date)}</b></li>`).join("");
+const excludedText = data.excluded.map((e) => `${esc(e.text)} (${esc(e.date)})`).join(" · ");
 
-const storyCount = data.heroes.length + data.cards.length + data.briefs.length;
+const storyCount = data.spine.length + data.briefs.length;
 
 const html = `<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
@@ -164,48 +217,59 @@ const html = `<!DOCTYPE html>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 1024px; height: 1024px; background: #f8f4ec; }
   body { font-family: "Noto Sans", Arial, sans-serif; color: #1a1a1a; }
-  .page { width: 1024px; height: 1024px; padding: 11px 16px 9px; display: flex; flex-direction: column; gap: 5px; }
+  .page { width: 1024px; height: 1024px; padding: 10px 14px 8px; display: flex; flex-direction: column; gap: 5px; }
   /* masthead */
-  .masthead { text-align: center; border-bottom: 3px double #1a1a1a; padding-bottom: 5px; flex: 0 0 auto; }
-  .name { font-size: 13px; font-weight: bold; letter-spacing: 6px; color: #b3261e; }
-  h1 { font-family: "Noto Serif", Georgia, serif; font-size: 37px; line-height: 1.08; font-weight: bold; }
+  .masthead { text-align: center; border-bottom: 3px double #1a1a1a; padding-bottom: 4px; flex: 0 0 auto; }
+  .name { font-size: 12px; font-weight: bold; letter-spacing: 6px; color: #b3261e; }
+  h1 { font-family: "Noto Serif", Georgia, serif; font-size: 36px; line-height: 1.08; font-weight: bold; }
   .tagline { font-size: 11px; font-style: italic; color: #444; margin-top: 1px; }
-  /* stat strip */
-  .stats { display: flex; justify-content: space-between; border-bottom: 1px solid #1a1a1a; padding: 2px 2px 4px; font-size: 11px; font-weight: bold; letter-spacing: 0.5px; flex: 0 0 auto; }
-  .stats span b { color: #b3261e; }
-  /* heroes */
-  .heroes { display: flex; gap: 9px; flex: 0 0 164px; }
-  .hero { flex: 1; border: 1px solid #c9c2b4; background: #fffdf8; display: flex; flex-direction: column; overflow: hidden; }
-  .art { flex: 0 0 72px; }
-  .art svg { display: block; }
-  .hero-body { padding: 5px 9px 5px; }
+  /* big-number stat strip */
+  .stats { display: flex; border-bottom: 1px solid #1a1a1a; padding: 2px 0 4px; flex: 0 0 auto; }
+  .stat { flex: 1; text-align: center; border-left: 1px solid #d8d0bc; padding: 0 4px; }
+  .stat:first-child { border-left: none; }
+  .statnum { font-family: "Noto Serif", Georgia, serif; font-size: 20px; font-weight: bold; color: #b3261e; line-height: 1.1; }
+  .statlabel { font-size: 7.5px; font-weight: bold; letter-spacing: 0.6px; color: #444; }
+  /* timeline header */
+  .tl-head { font-size: 10px; font-weight: bold; letter-spacing: 1.5px; color: #b3261e; flex: 0 0 auto; padding-left: 52px; }
+  .tl-head span { color: #666; font-weight: normal; letter-spacing: 0.5px; }
+  /* timeline spine */
+  .timeline { position: relative; padding-left: 52px; display: flex; flex-direction: column; gap: 4px; flex: 0 0 auto; }
+  .timeline::before { content: ""; position: absolute; left: 25px; top: 8px; bottom: 8px; width: 3px; background: #b3261e; border-radius: 2px; }
+  .trow { position: relative; display: flex; gap: 8px; }
+  .trow::before { content: ""; position: absolute; left: -32px; top: 50%; width: 12px; height: 12px; margin-top: -6px; background: #b3261e; border: 2px solid #f8f4ec; border-radius: 50%; box-shadow: 0 0 0 1.5px #b3261e; }
+  .leadrow::before { width: 10px; height: 10px; margin-top: -5px; left: -31px; }
+  .herorow { flex: 0 0 90px; }
+  .leadrow { flex: 0 0 66px; }
+  .hero { flex: 1; border: 1px solid #c9c2b4; background: #fffdf8; display: flex; overflow: hidden; }
+  .hero .art { flex: 0 0 318px; }
+  .hero .art svg, .card .art svg { display: block; }
+  .htext { padding: 6px 12px; }
   .kicker { font-size: 9px; font-weight: bold; letter-spacing: 1px; color: #16324f; margin-bottom: 2px; }
-  .num { display: inline-block; background: #b3261e; color: #fff; font-size: 8.5px; width: 13px; height: 13px; line-height: 13px; text-align: center; border-radius: 50%; margin-right: 3px; }
-  .hero h2 { font-family: "Noto Serif", Georgia, serif; font-size: 16.5px; line-height: 1.15; margin-bottom: 3px; }
-  .hero p { font-size: 11px; line-height: 1.35; color: #333; }
-  /* medium grid */
-  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr 1fr; gap: 7px; flex: 1 1 auto; min-height: 0; }
-  .card { border: 1px solid #c9c2b4; background: #fffdf8; padding: 4px 8px; display: flex; gap: 8px; overflow: hidden; }
-  .icon { flex: 0 0 26px; padding-top: 1px; }
-  .card h3 { font-family: "Noto Serif", Georgia, serif; font-size: 12px; line-height: 1.18; margin-bottom: 1px; }
+  .time { display: inline-block; background: #b3261e; color: #fff; font-size: 9px; padding: 1px 6px; border-radius: 2px; margin-right: 6px; letter-spacing: 0.5px; }
+  .num { display: inline-block; background: #16324f; color: #fff; font-size: 8.5px; width: 13px; height: 13px; line-height: 13px; text-align: center; border-radius: 50%; margin-right: 3px; }
+  .hero h2 { font-family: "Noto Serif", Georgia, serif; font-size: 19px; line-height: 1.12; margin-bottom: 2px; }
+  .hero p { font-size: 11px; line-height: 1.32; color: #333; }
+  .card { flex: 1; border: 1px solid #c9c2b4; background: #fffdf8; display: flex; overflow: hidden; }
+  .card .art { flex: 0 0 104px; }
+  .ctext { padding: 4px 8px; }
+  .ctext .kicker { font-size: 8px; margin-bottom: 1px; }
+  .ctext .time { font-size: 8px; padding: 1px 5px; }
+  .card h3 { font-family: "Noto Serif", Georgia, serif; font-size: 12.5px; line-height: 1.14; margin-bottom: 1px; }
   .card p { font-size: 9.5px; line-height: 1.28; color: #333; }
   /* middle row: map + briefs */
-  .middle { display: flex; gap: 9px; flex: 0 0 272px; }
-  .mapbox { flex: 0 0 478px; border: 1px solid #c9c2b4; background: #f2f6f8; padding: 3px 8px 2px; }
+  .middle { display: flex; gap: 9px; flex: 0 0 196px; }
+  .mapbox { flex: 0 0 348px; border: 1px solid #c9c2b4; background: #f2f6f8; padding: 3px 8px 2px; }
   .mapbox h4, .briefs h4 { font-size: 10px; letter-spacing: 1.2px; color: #16324f; margin-bottom: 1px; }
   .mapbox .cap { font-size: 8.5px; color: #666; }
   .briefs { flex: 1; border: 1px solid #c9c2b4; background: #fffdf8; padding: 4px 10px 5px; }
-  .briefs ul { list-style: none; columns: 2; column-gap: 14px; }
-  .briefs li { font-size: 9px; line-height: 1.25; padding: 0.2px 0; border-bottom: 1px dotted #ddd5c4; }
+  .briefs ul { list-style: none; columns: 3; column-gap: 13px; }
+  .briefs li { font-size: 8.5px; line-height: 1.2; padding: 0.2px 0; border-bottom: 1px dotted #ddd5c4; }
   .briefs li:last-child { border-bottom: none; }
   .briefs li b { color: #16324f; }
-  /* date check */
+  /* date check strip */
   .datecheck { border: 2px solid #b3261e; background: #fdf0ee; padding: 4px 10px 5px; flex: 0 0 auto; }
-  .datecheck h4 { font-size: 10px; letter-spacing: 0.8px; color: #b3261e; margin-bottom: 2px; }
-  .datecheck ul { list-style: none; columns: 3; column-gap: 18px; }
-  .datecheck li { font-size: 9px; line-height: 1.25; padding: 0.5px 0; }
-  .datecheck li b { color: #b3261e; }
-  .datecheck .x { color: #b3261e; font-weight: bold; }
+  .datecheck p { font-size: 8.5px; line-height: 1.3; }
+  .datecheck b { color: #b3261e; letter-spacing: 0.5px; }
   /* footer */
   .footer { text-align: center; font-size: 8.5px; color: #555; line-height: 1.35; flex: 0 0 auto; border-top: 1px solid #c9c2b4; padding-top: 3px; }
   .footer b { color: #1a1a1a; }
@@ -216,32 +280,25 @@ const html = `<!DOCTYPE html>
     <h1>${esc(data.meta.day)}</h1>
     <div class="tagline">${esc(data.meta.tagline)}</div>
   </header>
-  <div class="stats">
-    <span><b>${storyCount}</b> STORIES</span>
-    <span><b>6</b> CONTINENTS</span>
-    <span><b>3</b> HEROES · <b>12</b> LEADS · <b>19</b> BRIEFS</span>
-    <span><b>${data.excluded.length}</b> TRAPS CHECKED &amp; EXCLUDED</span>
+  <div class="stats">${statsHtml}
   </div>
-  <section class="heroes">${heroHtml}
-  </section>
-  <section class="grid">${cardHtml}
+  <div class="tl-head">▼ THE DAY IN HOURS <span>— local times · follow Thursday around the world</span></div>
+  <section class="timeline">${timelineHtml}
   </section>
   <section class="middle">
     <div class="mapbox">
-      <h4>WHERE IT HAPPENED — THE 15 PINNED STORIES</h4>
+      <h4>WHERE IT HAPPENED — THE 11 PINNED STORIES</h4>
       ${buildMapSvg()}
-      <div class="cap">Numbers match the red badges on the stories above. Crowded pins use leader lines.</div>
+      <div class="cap">Numbers match the badges on the timeline. Crowded pins use leader lines.</div>
     </div>
     <div class="briefs">
-      <h4>IN BRIEF — 19 MORE STORIES FROM THE DAY</h4>
+      <h4>ALSO ON THURSDAY — 23 MORE STORIES</h4>
       <ul>${briefHtml}
       </ul>
     </div>
   </section>
   <section class="datecheck">
-    <h4>DATE CHECK — THESE BIG STORIES ARE NOT 19 NOVEMBER. THEY WERE CHECKED AND LEFT OUT.</h4>
-    <ul>${excludedHtml}
-    </ul>
+    <p><b>DATE CHECK — LEFT OUT ON PURPOSE, FIRST REPORTED ON OTHER DAYS:</b> ${excludedText}</p>
   </section>
   <footer class="footer">
     <b>${esc(data.meta.judgeNote)}</b><br>
