@@ -289,3 +289,32 @@ evaluasi dari top rank rewards dan resubmit"). Session 814fa8be.
   byte-identical (sha256 01a3940e…).
 - Fresh kit-2 (~/workspace/makefun/news-image-20261119-kit-2/) used for
   checks/submit; its bundle_sha256 is identical to the phase-1 kit.
+
+## Entry 3 — "The Day in Hours" (Fri 20 Nov, approved 08:44 WIB)
+
+Basahh approved a third entry ("Ya, garap entri ketiga") after the final
+scored the SAME 96.35% as the draft — a similar front page provably does not
+move the score. Session 8b656176. Full evaluation:
+~/workspace/makefun/news-image-20261119-dev/TOP3-EVAL.md.
+
+- Live leaderboard re-check 08:50 WIB: final entry 963451 (96.35%), rank 6965
+  (leaderboard) / ~5,864 (per-entrant); rank-50 cutoff 988684 (98.87%).
+  Top 10 images viewed: ALL are broadsheets; 4 of 10 feature a timeline
+  strip, but none uses time as its PRIMARY structure. Date errors are
+  everywhere in the top 10 and unpenalized. Our gaps vs the top: no
+  big-number stat strip, no illustrations on lead cards, no timeline element.
+- Design: a chronological timeline — left red time spine with dots, 3 heroes
+  distributed through the flow at their times (00:00, 10:00, 14:30), 8
+  illustrated lead cards in 4 rows of 2, big-number stat strip (6 numbers),
+  map (11 pins), 23 briefs, compact DATE CHECK strip. Same verified 34
+  stories; Suneung promoted to a spine card, five leads demoted to briefs.
+- Times verified for this entry: Suneung 08:40 KST (KICE, 08:40–17:45);
+  Jakarta asset-seizure law 09:30 WIB (DPR plenary); Anthropic first trade
+  ~11:50 ET at $111.50, close $97.17 +17% (Nasdaq reporting) — close added
+  to the Anthropic story. Shenzhen 14:30 CST and ICJ 10:00 CET as before.
+- Render: entry.png 1024×1024, 327,273 bytes; two renders byte-identical;
+  two main.ts runs byte-identical; measurement confirms 1024px height, zero
+  clipped elements; viewed at full size and at 300px (composition reads).
+- Fresh kit-3 (~/workspace/makefun/news-image-20261119-kit-3/); RULES.txt
+  unchanged vs kit-2 except the harness-source hash; bundle_sha256 identical.
+  Skill.md refreshed to v1.5.225 (heartbeat).
